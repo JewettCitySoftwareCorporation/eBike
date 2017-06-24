@@ -1,0 +1,53 @@
+﻿<html ng-app="ModelVoteApp">
+<head>
+    <title></title>
+<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    
+    <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+    <script type="text/javascript">
+     // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD9tdqtqmrWmQ5raZ4idNOckmdMY9FAg74",
+    authDomain: "ebike-8a998.firebaseapp.com",
+    databaseURL: "https://ebike-8a998.firebaseio.com",
+    projectId: "ebike-8a998",
+    storageBucket: "ebike-8a998.appspot.com",
+    messagingSenderId: "132815349578"
+  };
+  firebase.initializeApp(config);
+
+         var app = angular.module("ModelVoteApp", ["firebase"]);
+         app.controller("ModelVoteCtrl", function ($scope, $firebaseArray) {
+             var ref = firebase;
+             // create a synchronized array
+
+             $scope.PhotoList = $firebaseArray(ref);
+             // Attach an asynchronous callback to read the data at our posts reference
+
+                          console.log($scope.PhotoList);
+
+             $scope.PhotoList.$loaded().then(function (PhotoList) {
+                 $scope.TotalPhotos = PhotoList.length
+                 console.log(PhotoList.length); // data is loaded here
+             });
+         });
+    </script>
+</head>
+<body ng-controller="ModelVoteCtrl">
+
+
+    <table>
+        <tr ng-repeat="Photo in PhotoList">
+            <td><img src="{{ Photo.IMG_SRC }}" height="200px" width="200px" /></td>
+            <td>{{ Photo.ListPrice }}</td>
+            <td>{{ Photo.ProductName }}</td>
+            <td>{{ Photo.URL }}</td>
+            <td>{{Photo.Vendor}}</td>
+            <td>{{Photo.VendorURL}}</td>
+        </tr>
+    </table>
+</body>
+</html>
